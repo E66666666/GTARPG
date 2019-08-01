@@ -39,7 +39,8 @@ namespace LogicSpawn.GTARPG.Core.General
 #pragma warning restore 612,618
                 },
                 Formatting = Formatting.Indented,
-                ObjectCreationHandling = ObjectCreationHandling.Replace
+                ObjectCreationHandling = ObjectCreationHandling.Replace,
+                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             };
         }
 
