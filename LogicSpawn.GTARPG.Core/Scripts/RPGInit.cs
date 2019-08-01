@@ -63,38 +63,8 @@ namespace LogicSpawn.GTARPG.Core
 
         private bool CheckStatus(out string missing)
         {
-            var scripthookvpath = Path.Combine(Application.StartupPath, "ScriptHookV.dll");
-            var scripthookvnetpath = Path.Combine(Application.StartupPath, "ScriptHookVDotNet.dll");
-            hasScriptHookV = GetMD5Hash(scripthookvpath) == "4be83badebac3da379555c83f18b6e94";
-            hasScriptHookDotNet = GetMD5Hash(scripthookvnetpath) == "68bf4bf432f95c1c18a6d290c8241c71";
-            hasNet45 = IsNet45OrNewer();
-
             missing = "";
-
-            if (!hasScriptHookV) missing += "[ScriptHookV v1.0.393.4] ";
-            if (!hasScriptHookDotNet) missing += "[ScriptHookVNET v1.1] ";
-            if (!hasNet45) missing += "[.NET v4.5]";
-
-            return hasScriptHookV && hasScriptHookDotNet && hasNet45;
-
-        }
-
-        private string GetMD5Hash(string filePath)
-        {
-            using (var md5 = MD5.Create())
-            {
-                using (var stream = File.OpenRead(filePath))
-                {
-                    return BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", "").ToLower();
-
-                }
-            }
-        }
-
-        public static bool IsNet45OrNewer()
-        {
-            // Class "ReflectionContext" exists from .NET 4.5 onwards.
-            return Type.GetType("System.Reflection.ReflectionContext", false) != null;
+            return true;
         }
 
         public string HKLM_GetString(string path, string key)
