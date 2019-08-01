@@ -30,26 +30,10 @@ namespace LogicSpawn.GTARPG.Core
     }
     public class RPGInfoAlt : UpdateScript
     {
-        private MethodInfo GetEntityHandleList;
-        private bool Initialised;
-
-        public void Init()
+	    public override void Update()
         {
-            var netPath = Path.Combine(Application.StartupPath, "ScriptHookVDotNet.dll");
-            Assembly design = Assembly.LoadFile(netPath);
-            Type designHost = design.GetType("GTA.MemoryAccess");
-            GetEntityHandleList = designHost.GetMethod("GetEntityHandleList",
-                                                        BindingFlags.Static |
-                                                        BindingFlags.Public);
-            Initialised = true;
-        }
-
-        public override void Update()
-        {
-            if(!Initialised) Init();
-
-            var entities = (int[])GetEntityHandleList.Invoke(null,new object[0]);
-
+            var entities = GTA.World.GetAllEntities();
+            
             var veh = new List<Vehicle>();
             var ped = new List<Ped>();
 
@@ -61,10 +45,10 @@ namespace LogicSpawn.GTARPG.Core
 				    switch (Function.Call<int>(Hash.GET_ENTITY_TYPE, entity))
 				    {
 					    case 1:
-                            ped.Add(new Ped(entity));
+                            ped.Add(new Ped(entity.Handle));
 						    break;
 					    case 2:
-                            veh.Add(new Vehicle(entity));
+                            veh.Add(new Vehicle(entity.Handle));
 						    break;
 				    }
 			    }
